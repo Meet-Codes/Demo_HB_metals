@@ -16,6 +16,25 @@
 # Prevent directory listings
 Options -Indexes
 
+# Correct MIME Types for Modern Web Assets
+<IfModule mod_mime.c>
+    AddType text/css .css
+    AddType application/javascript .js
+    AddType image/svg+xml .svg .svgz
+    AddType image/webp .webp
+    AddType image/png .png
+    AddType image/jpeg .jpg .jpeg
+    AddType video/mp4 .mp4
+    AddType video/webm .webm
+    AddType font/woff2 .woff2
+    AddType font/woff .woff
+</IfModule>
+
+# Handle HTTPS behind reverse proxy (Render, Cloudflare, AWS ALB)
+<IfModule mod_setenvif.c>
+    SetEnvIf X-Forwarded-Proto "^https$" HTTPS=on
+</IfModule>
+
 # Security Headers
 <IfModule mod_headers.c>
     Header set X-Content-Type-Options "nosniff"

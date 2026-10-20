@@ -3,10 +3,12 @@ set -e
 
 # Render binds to the port defined by $PORT (defaults to 10000 on Render, fallback 80)
 PORT="${PORT:-10000}"
+export APACHE_PORT="${PORT}"
 
 # Configure Apache to listen on $PORT
-sed -i "s/Listen 80/Listen ${PORT}/g" /etc/apache2/ports.conf
-sed -i "s/<VirtualHost \*:80>/<VirtualHost \*:${PORT}>/g" /etc/apache2/sites-available/*.conf
+echo "Listen ${PORT}" > /etc/apache2/ports.conf
+sed -i "s/<VirtualHost \*:[^>]*>/<VirtualHost \*:${PORT}>/g" /etc/apache2/sites-available/*.conf 2>/dev/null || true
+sed -i "s/\${APACHE_PORT}/${PORT}/g" /etc/apache2/sites-available/*.conf 2>/dev/null || true
 
 # Synchronize DB_URL and DATABASE_URL if either is set
 if [ -n "${DB_URL}" ] && [ -z "${DATABASE_URL}" ]; then

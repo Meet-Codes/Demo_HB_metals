@@ -84,10 +84,33 @@ class App
         }
     }
 
+    public static function isHttps(): bool
+    {
+        if (!empty($_SERVER['HTTPS']) && strtolower((string)$_SERVER['HTTPS']) !== 'off' && $_SERVER['HTTPS'] !== '0') {
+            return true;
+        }
+        if (!empty($_SERVER['HTTP_X_FORWARDED_PROTO']) && strtolower((string)$_SERVER['HTTP_X_FORWARDED_PROTO']) === 'https') {
+            return true;
+        }
+        if (!empty($_SERVER['HTTP_X_FORWARDED_SSL']) && strtolower((string)$_SERVER['HTTP_X_FORWARDED_SSL']) === 'on') {
+            return true;
+        }
+        if (!empty($_SERVER['HTTP_CF_VISITOR'])) {
+            $visitor = json_decode((string)$_SERVER['HTTP_CF_VISITOR'], true);
+            if (is_array($visitor) && isset($visitor['scheme']) && $visitor['scheme'] === 'https') {
+                return true;
+            }
+        }
+        if (!empty($_SERVER['SERVER_PORT']) && (int)$_SERVER['SERVER_PORT'] === 443) {
+            return true;
+        }
+        return false;
+    }
+
     public static function url(string $path = ''): string
     {
         if (!empty($_SERVER['HTTP_HOST'])) {
-            $scheme = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on') ? 'https' : 'http';
+            $scheme = self::isHttps() ? 'https' : 'http';
             $host = $_SERVER['HTTP_HOST'];
             $base = "{$scheme}://{$host}";
         } else {

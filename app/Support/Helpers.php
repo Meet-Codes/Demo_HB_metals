@@ -24,13 +24,14 @@ class Helpers
 
     /**
      * Generate asset URL with cache-busting timestamp
+     * Uses root-relative URL to prevent mixed-content blocking behind HTTPS reverse proxies
      */
     public static function asset(string $path): string
     {
         $relativePath = ltrim($path, '/');
         $fullPath = __DIR__ . '/../../public/' . $relativePath;
-        $version = file_exists($fullPath) ? filemtime($fullPath) : '1.0';
-        return App::url($relativePath) . '?v=' . $version;
+        $version = file_exists($fullPath) ? (string)filemtime($fullPath) : '1.0';
+        return '/' . $relativePath . '?v=' . $version;
     }
 
     /**
