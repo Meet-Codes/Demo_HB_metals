@@ -1,0 +1,9 @@
+/.env
+/storage/database/*.sqlite
+/storage/logs/*.log
+/storage/private-uploads/*
+!/storage/private-uploads/.gitkeep
+/storage/cache/*
+!/storage/cache/.gitkeep
+.DS_Store
+Thumbs.db

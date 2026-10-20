@@ -1,0 +1,652 @@
+/**
+ * HB Metals India - Layout Styles
+ * Cinematic Editorial Structure & Refined Liquid-Glass Layouts
+ */
+
+/* ==========================================================================
+   1. Top Info Bar
+   ========================================================================== */
+.top-bar {
+    background-color: var(--color-navy-dark);
+    color: var(--color-steel-light);
+    font-size: var(--text-small);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    padding: var(--space-2) 0;
+    position: relative;
+    z-index: calc(var(--z-header) + 1);
+}
+
+.top-bar .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+}
+
+.top-bar-left, .top-bar-right {
+    display: flex;
+    align-items: center;
+    gap: var(--space-6);
+}
+
+.top-bar-item {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    color: #9cb1c2;
+    font-size: 0.825rem;
+}
+
+.top-bar-item a {
+    color: #f1f5f9;
+    font-weight: 500;
+}
+
+.top-bar-item a:hover {
+    color: var(--color-copper-light);
+}
+
+/* ==========================================================================
+   2. Header & Liquid-Glass Floating Navigation
+   ========================================================================== */
+.site-header {
+    background-color: rgba(15, 30, 41, 0.78);
+    backdrop-filter: blur(16px) saturate(180%);
+    -webkit-backdrop-filter: blur(16px) saturate(180%);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.25);
+    color: var(--color-white);
+    position: sticky;
+    top: 0;
+    z-index: var(--z-header);
+    transition: background-color var(--transition-normal),
+                box-shadow var(--transition-normal),
+                border-color var(--transition-normal),
+                height var(--transition-normal);
+}
+
+.site-header.is-scrolled {
+    background-color: rgba(10, 21, 29, 0.92);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.16);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.45);
+}
+
+.header-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: var(--header-height);
+}
+
+/* Brand Logo */
+.site-brand {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-3);
+    text-decoration: none;
+    line-height: 1;
+}
+
+.brand-logo {
+    height: 44px;
+    width: auto;
+    max-width: 175px;
+    object-fit: contain;
+    display: block;
+    transition: transform var(--transition-fast), opacity var(--transition-fast);
+}
+
+.site-brand:hover .brand-logo {
+    transform: scale(1.02);
+    opacity: 0.95;
+}
+
+/* Primary Nav */
+.primary-nav {
+    display: flex;
+    align-items: center;
+    gap: var(--space-6);
+}
+
+.nav-list {
+    display: flex;
+    align-items: center;
+    gap: var(--space-6);
+}
+
+.nav-item {
+    position: relative;
+}
+
+.nav-link {
+    color: #dbe7ef;
+    font-weight: 500;
+    font-size: var(--text-small);
+    letter-spacing: 0.01em;
+    padding: var(--space-2) 0;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1);
+    position: relative;
+    transition: color var(--transition-fast);
+}
+
+.nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: var(--color-copper);
+    transition: width var(--transition-normal);
+}
+
+.nav-link:hover, .nav-link.active {
+    color: var(--color-white);
+}
+
+.nav-link:hover::after, .nav-link.active::after {
+    width: 100%;
+}
+
+/* Liquid-Glass Dropdown Menu */
+.has-dropdown:hover .nav-dropdown,
+.has-dropdown:focus-within .nav-dropdown {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.nav-dropdown {
+    position: absolute;
+    top: calc(100% + 12px);
+    left: 0;
+    background: rgba(15, 30, 41, 0.96);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    min-width: 290px;
+    border-radius: var(--radius-lg);
+    box-shadow: 0 20px 48px -4px rgba(0, 0, 0, 0.5), inset 0 1px 1px rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    padding: var(--space-2);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(12px);
+    transition: opacity var(--transition-fast), transform var(--transition-fast), visibility var(--transition-fast);
+    z-index: var(--z-dropdown);
+}
+
+.nav-dropdown a {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 14px;
+    color: #e2edf6;
+    font-size: 0.875rem;
+    font-weight: 500;
+    border-radius: var(--radius-sm);
+    transition: background-color var(--transition-fast), color var(--transition-fast), transform var(--transition-fast);
+}
+
+.nav-dropdown a:hover {
+    background-color: rgba(244, 63, 94, 0.18);
+    color: #ffffff;
+    transform: translateX(3px);
+}
+
+.nav-dropdown a.nav-dropdown-all {
+    margin-top: 4px;
+    background: rgba(255, 255, 255, 0.08);
+    color: var(--color-copper-light);
+    font-weight: 700;
+    border: 1px solid rgba(244, 63, 94, 0.3);
+}
+
+.nav-dropdown a.nav-dropdown-all:hover {
+    background: var(--color-copper);
+    color: var(--color-white);
+}
+
+/* Header Actions */
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+}
+
+.menu-toggle-btn {
+    display: none;
+    background: transparent;
+    border: none;
+    color: var(--color-white);
+    padding: var(--space-2);
+    cursor: pointer;
+    font-size: 1.5rem;
+    line-height: 1;
+}
+
+/* ==========================================================================
+   3. Breadcrumbs
+   ========================================================================== */
+.breadcrumbs-bar {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--color-line);
+    padding: var(--space-3) 0;
+    font-size: var(--text-small);
+}
+
+.breadcrumbs-list {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+}
+
+.breadcrumbs-item {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    color: var(--color-muted);
+}
+
+.breadcrumbs-item a {
+    color: var(--color-steel);
+}
+
+.breadcrumbs-item a:hover {
+    color: var(--color-copper);
+}
+
+.breadcrumbs-item[aria-current="page"] {
+    color: var(--color-ink);
+    font-weight: 600;
+}
+
+.breadcrumbs-separator {
+    color: var(--color-line);
+    user-select: none;
+}
+
+/* ==========================================================================
+   4. Site Main Container
+   ========================================================================== */
+.site-main {
+    flex: 1 0 auto;
+    position: relative;
+    z-index: 1;
+}
+
+/* ==========================================================================
+   5. Sections & Industrial HUD Styling
+   ========================================================================== */
+.section-dark {
+    background-color: var(--color-navy);
+    color: var(--color-white);
+    padding: var(--space-16) 0;
+    position: relative;
+}
+
+.section-dark h1, .section-dark h2, .section-dark h3 {
+    color: var(--color-white);
+}
+
+.section-dark p {
+    color: #b5c8d5;
+}
+
+.section-light {
+    background-color: var(--color-paper);
+    padding: var(--space-16) 0;
+    position: relative;
+}
+
+/* Section 3D HUD (Refined & Accessible) */
+.section-3d-hud {
+    position: relative;
+    padding: var(--space-16) 0;
+}
+
+.section-3d-hud.is-dark,
+.section-dark,
+.dark-backdrop-section {
+    background-color: rgba(10, 21, 29, 0.88);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    color: var(--color-text-dark-body);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Headings on dark navy, graphite, and image-overlay backgrounds */
+.section-3d-hud:not(.section-light) h1,
+.section-3d-hud:not(.section-light) h2,
+.section-3d-hud:not(.section-light) h3,
+.section-3d-hud.is-dark h1,
+.section-3d-hud.is-dark h2,
+.section-3d-hud.is-dark h3,
+.section-dark h1,
+.section-dark h2,
+.section-dark h3,
+.dark-backdrop-section h1,
+.dark-backdrop-section h2,
+.dark-backdrop-section h3 {
+    color: var(--color-text-dark-heading);
+}
+
+.section-3d-hud:not(.section-light) p,
+.section-3d-hud.is-dark p,
+.section-dark p,
+.dark-backdrop-section p {
+    color: var(--color-text-dark-body);
+}
+
+/* Maintain crisp dark typography inside light cards across any section */
+.glass-card,
+.card-white,
+[style*="background: var(--color-white)"],
+[style*="background: #ffffff"],
+[style*="background: #FFFFFF"],
+[style*="background: rgb(255, 255, 255)"] {
+    color: var(--color-text-light-body);
+}
+
+.glass-card h1, .glass-card h2, .glass-card h3, .glass-card h4,
+[style*="background: var(--color-white)"] h1,
+[style*="background: var(--color-white)"] h2,
+[style*="background: var(--color-white)"] h3,
+[style*="background: var(--color-white)"] h4 {
+    color: var(--color-text-light-heading);
+}
+
+.glass-card p,
+[style*="background: var(--color-white)"] p {
+    color: var(--color-text-light-body);
+}
+
+.section-3d-hud::before {
+    display: none !important;
+}
+
+/* Global 3D WebGL Canvas Layer (Disabled per user request) */
+#global-3d-stage,
+#motion-video-canvas {
+    display: none !important;
+}
+
+/* ==========================================================================
+   6. Footer
+   ========================================================================== */
+.site-footer {
+    background-color: var(--color-navy-dark);
+    color: #b8c8d4;
+    padding-top: var(--space-16);
+    border-top: 3px solid var(--color-copper);
+    margin-top: auto;
+    position: relative;
+    overflow: hidden;
+    --df-accent: #ea580c;
+}
+
+.footer-grid {
+    display: grid;
+    grid-template-columns: 2fr 1.2fr 1.2fr 1.6fr;
+    gap: var(--space-10);
+    padding-bottom: var(--space-12);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.footer-col h4 {
+    color: var(--color-white);
+    font-size: var(--text-h4);
+    margin-bottom: var(--space-5);
+    position: relative;
+    padding-bottom: var(--space-3);
+}
+
+.footer-col h4::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 32px;
+    height: 2px;
+    background-color: var(--color-copper);
+}
+
+.footer-tagline {
+    color: #9ab0bf;
+    font-size: var(--text-small);
+    line-height: 1.6;
+    margin-bottom: var(--space-6);
+    max-width: 340px;
+}
+
+/* Newsletter Subscription Form */
+.df-subscribe-form {
+    max-width: 360px;
+    margin-top: var(--space-4);
+}
+
+.df-subscribe-label {
+    display: block;
+    font-size: var(--text-small);
+    font-weight: 600;
+    color: #e2e8f0;
+    margin-bottom: var(--space-2);
+}
+
+.df-input-group {
+    display: flex;
+    gap: var(--space-2);
+}
+
+.df-input {
+    flex: 1;
+    min-width: 0;
+    height: 42px;
+    padding: 0 var(--space-4);
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: var(--radius-sm);
+    color: #ffffff;
+    font-size: var(--text-small);
+    outline: none;
+    transition: border-color var(--transition-fast), background-color var(--transition-fast);
+}
+
+.df-input:focus {
+    border-color: var(--df-accent);
+    background: rgba(255, 255, 255, 0.14);
+}
+
+.df-input::placeholder {
+    color: #64748b;
+}
+
+.df-btn-submit {
+    height: 42px;
+    padding: 0 var(--space-5);
+    background: var(--df-accent);
+    color: #ffffff;
+    font-weight: 600;
+    font-size: var(--text-small);
+    border: none;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: opacity var(--transition-fast), transform var(--transition-fast);
+    flex-shrink: 0;
+}
+
+.df-btn-submit:hover {
+    opacity: 0.92;
+    transform: translateY(-1px);
+}
+
+.df-status-msg {
+    margin-top: var(--space-2);
+    min-height: 20px;
+    font-size: var(--text-micro);
+    color: #38bdf8;
+}
+
+.footer-links {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+}
+
+.footer-links a {
+    color: #b8c8d4;
+    font-size: var(--text-small);
+    transition: color var(--transition-fast), transform var(--transition-fast);
+}
+
+.footer-links a:hover {
+    color: var(--color-copper-light);
+    transform: translateX(3px);
+}
+
+.footer-contact-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    font-size: var(--text-small);
+}
+
+.footer-contact-item {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-3);
+}
+
+.footer-contact-item strong {
+    color: var(--color-white);
+    min-width: 60px;
+}
+
+/* Dithered Noise Band */
+.df-band {
+    position: relative;
+    height: 180px;
+    overflow: hidden;
+    user-select: none;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.df-field {
+    position: absolute;
+    inset: 0;
+    pointer-events: auto;
+}
+
+.df-field.df-lit {
+    -webkit-mask-image: radial-gradient(circle 220px at var(--df-x, 50%) var(--df-y, 50%), #000 35%, rgb(0 0 0 / 0.18) 100%);
+    mask-image: radial-gradient(circle 220px at var(--df-x, 50%) var(--df-y, 50%), #000 35%, rgb(0 0 0 / 0.18) 100%);
+}
+
+.df-dots {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: calc(100% + 360px);
+    background: var(--df-accent);
+    -webkit-mask-image: radial-gradient(circle, #000 0.9px, transparent 1.3px);
+    mask-image: radial-gradient(circle, #000 0.9px, transparent 1.3px);
+    -webkit-mask-size: 4px 4px;
+    mask-size: 4px 4px;
+    -webkit-mask-repeat: repeat;
+    mask-repeat: repeat;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    .df-dots {
+        animation: df-drift 40s linear infinite;
+    }
+}
+
+@keyframes df-drift {
+    to {
+        translate: -360px 0;
+    }
+}
+
+.df-mark {
+    pointer-events: none;
+    position: absolute;
+    bottom: -0.05em;
+    left: clamp(1rem, 4vw, 3rem);
+    user-select: none;
+    font-size: clamp(4.5rem, 15vw, 11rem);
+    font-weight: 800;
+    line-height: 0.8;
+    letter-spacing: -0.06em;
+    color: var(--color-navy);
+    margin: 0;
+    opacity: 0.5;
+}
+
+/* Footer Bottom Bar */
+.footer-bottom {
+    padding: var(--space-6) 0;
+    font-size: var(--text-small);
+    color: var(--color-steel-light);
+    background-color: rgba(6, 14, 22, 0.85);
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.footer-bottom .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--space-4);
+}
+
+.footer-bottom-left {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    color: #94a3b8;
+}
+
+.footer-legal-links {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--space-6);
+}
+
+.footer-legal-links a {
+    color: #8da4b5;
+    font-size: var(--text-small);
+}
+
+.footer-legal-links a:hover {
+    color: var(--color-white);
+}
+
+.df-back-to-top {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: transparent;
+    border: none;
+    color: #94a3b8;
+    font-size: var(--text-small);
+    font-weight: 500;
+    cursor: pointer;
+    padding: 2px 6px;
+    border-radius: var(--radius-sm);
+    transition: color var(--transition-fast);
+}
+
+.df-back-to-top:hover {
+    color: var(--color-white);
+}

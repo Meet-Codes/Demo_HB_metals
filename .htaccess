@@ -1,0 +1,18 @@
+# ==============================================================================
+# HB Metals India - Root URL Rewriter & Server Protection
+# Compatible with Apache 2.4+ / Shared Hosting (cPanel, Plesk, LiteSpeed)
+# ==============================================================================
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Prevent direct HTTP access to protected directories and system files
+    RewriteRule ^(\.env|\.git|app|config|data|docs|storage|HBMetals\.md) - [F,L]
+
+    # Route all requests to the /public directory if not already inside it
+    RewriteCond %{REQUEST_URI} !^/public/
+    RewriteRule ^(.*)$ public/$1 [L]
+</IfModule>
+
+# Disable directory browsing
+Options -Indexes

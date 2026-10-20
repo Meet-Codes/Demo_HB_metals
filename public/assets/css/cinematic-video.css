@@ -1,0 +1,522 @@
+/**
+ * HB Metals India - Cinematic Video Motion Background & Multi-Sided Reveal System
+ * High-performance 3D perspective scrolling, film-grade HUD telemetry & directional entrances
+ */
+
+/* ==========================================================================
+   1. Master Cinematic Video Stage (Fixed Fullscreen Backdrop)
+   ========================================================================== */
+#cinematic-video-stage {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    width: 100dvw;
+    height: 100vh;
+    height: 100dvh;
+    z-index: -3;
+    overflow: hidden;
+    pointer-events: none;
+    background-color: #06080B;
+    background-image: radial-gradient(circle at 50% 30%, #0e1e2d 0%, #06080B 75%);
+    perspective: 1200px;
+    transform-style: preserve-3d;
+}
+
+/* Master Video Element with Hardware Acceleration & Smooth 3D Pan/Zoom */
+.cinematic-video-player {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100vw;
+    width: 100dvw;
+    height: 100vh;
+    height: 100dvh;
+    min-width: 100%;
+    min-height: 100%;
+    object-fit: cover;
+    transform: translate(-50%, -50%) scale(1.05);
+    transform-origin: center center;
+    opacity: 0.75;
+    filter: brightness(1.05) contrast(1.15) saturate(1.22);
+    will-change: transform, filter, opacity;
+    transition: filter 0.8s ease, opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Home Page Specific Background Video Opacity (0.75) */
+body.page-home .cinematic-video-player {
+    opacity: 0.75 !important;
+}
+
+/* Video Stage Atmospheric Layers - lightened so video details shine through */
+.cinematic-video-vignette {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: radial-gradient(circle at 50% 50%, rgba(6, 8, 11, 0.0) 0%, rgba(6, 8, 11, 0.16) 70%, rgba(4, 6, 8, 0.35) 100%);
+    z-index: 1;
+}
+
+/* Top and Bottom Anamorphic Movie Letterbox Bars */
+.cinematic-letterbox-top,
+.cinematic-letterbox-bottom {
+    position: fixed;
+    left: 0;
+    width: 100%;
+    height: 14px;
+    background: #040608;
+    z-index: 9998;
+    pointer-events: none;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+    transition: height 0.4s ease;
+}
+
+.cinematic-letterbox-top {
+    top: 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.cinematic-letterbox-bottom {
+    bottom: 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+/* Scanline and Subtle Grain Overlay */
+.cinematic-scanlines {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: repeating-linear-gradient(0deg,
+            rgba(0, 0, 0, 0.15) 0px,
+            rgba(0, 0, 0, 0.15) 1px,
+            transparent 1px,
+            transparent 3px);
+    opacity: 0.35;
+    z-index: 2;
+}
+
+/* Molten Metallic Heat Distortion / Horizon Flare */
+.cinematic-horizon-flare {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    height: 120px;
+    transform: translateY(-50%);
+    background: linear-gradient(90deg,
+            rgba(244, 63, 94, 0) 0%,
+            rgba(244, 63, 94, 0.08) 25%,
+            rgba(16, 185, 129, 0.12) 50%,
+            rgba(244, 63, 94, 0.08) 75%,
+            rgba(244, 63, 94, 0) 100%);
+    filter: blur(25px);
+    pointer-events: none;
+    z-index: 2;
+    opacity: 0.7;
+    will-change: transform, opacity;
+}
+
+/* ==========================================================================
+   2. Cinematic Telemetry & Camera HUD (Movie Look)
+   ========================================================================== */
+.cinematic-hud-layer {
+    position: fixed;
+    inset: 18px 24px;
+    pointer-events: none;
+    z-index: 9990;
+    font-family: var(--font-mono, monospace);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    color: rgba(220, 235, 245, 0.65);
+    text-transform: uppercase;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: opacity 0.4s ease;
+}
+
+/* 4 Corner Crosshairs */
+.cinematic-hud-corner {
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    border-color: rgba(244, 63, 94, 0.45);
+    border-style: solid;
+    pointer-events: none;
+    transition: border-color 0.3s ease;
+}
+
+.cinematic-hud-corner.tl {
+    top: 0;
+    left: 0;
+    border-width: 2px 0 0 2px;
+}
+
+.cinematic-hud-corner.tr {
+    top: 0;
+    right: 0;
+    border-width: 2px 2px 0 0;
+}
+
+.cinematic-hud-corner.bl {
+    bottom: 0;
+    left: 0;
+    border-width: 0 0 2px 2px;
+}
+
+.cinematic-hud-corner.br {
+    bottom: 0;
+    right: 0;
+    border-width: 0 2px 2px 0;
+}
+
+.cinematic-hud-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 10px;
+}
+
+.cinematic-hud-live-rec {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    color: #f43f5e;
+    font-weight: 700;
+}
+
+.cinematic-hud-rec-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background-color: #f43f5e;
+    box-shadow: 0 0 8px #f43f5e;
+    animation: cinematicPulse 1.8s infinite;
+}
+
+@keyframes cinematicPulse {
+
+    0%,
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    50% {
+        opacity: 0.3;
+        transform: scale(0.85);
+    }
+}
+
+.cinematic-hud-badge {
+    background: rgba(18, 24, 32, 0.85);
+    border: 1px solid rgba(16, 185, 129, 0.45);
+    padding: 4px 10px;
+    border-radius: 4px;
+    color: #34d399;
+    backdrop-filter: blur(8px);
+}
+
+.cinematic-hud-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    padding: 0 10px;
+}
+
+.cinematic-hud-coordinates {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    color: rgba(203, 213, 225, 0.75);
+}
+
+/* Dynamic Live Scroll Timeline Scrubber */
+.cinematic-scroll-gauge {
+    position: fixed;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 3px;
+    height: 180px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 3px;
+    z-index: 9995;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.cinematic-scroll-fill {
+    width: 100%;
+    height: 0%;
+    background: linear-gradient(180deg, var(--color-copper, #f43f5e), #10b981);
+    box-shadow: 0 0 10px rgba(244, 63, 94, 0.75);
+    transition: height 0.05s linear;
+}
+
+/* ==========================================================================
+   3. Floating Cinematic Video Controls Bar (Interactive Widget)
+   ========================================================================== */
+.cinematic-controls-bar {
+    position: fixed;
+    bottom: 24px;
+    right: 28px;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(10, 14, 19, 0.88);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid rgba(244, 63, 94, 0.35);
+    border-radius: 30px;
+    padding: 6px 14px;
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.6), inset 0 1px 1px rgba(255, 255, 255, 0.15);
+    pointer-events: auto;
+    font-family: var(--font-mono, monospace);
+    font-size: 11px;
+    color: #e2edf6;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.cinematic-controls-bar:hover {
+    border-color: rgba(244, 63, 94, 0.7);
+    box-shadow: 0 16px 40px rgba(244, 63, 94, 0.22), 0 12px 32px rgba(0, 0, 0, 0.6);
+}
+
+.cinematic-ctrl-btn {
+    background: transparent;
+    border: none;
+    color: #e2edf6;
+    padding: 5px 8px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 11px;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    transition: all 0.2s ease;
+}
+
+.cinematic-ctrl-btn:hover {
+    color: #fb7185;
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.cinematic-ctrl-btn.is-active {
+    color: #34d399;
+    font-weight: 700;
+}
+
+.cinematic-ctrl-divider {
+    width: 1px;
+    height: 14px;
+    background: rgba(255, 255, 255, 0.18);
+}
+
+/* ==========================================================================
+   4. Cinema Focus Mode (Dims text to view pure 4K video)
+   ========================================================================== */
+body.cinema-focus-mode .site-header,
+body.cinema-focus-mode .site-footer,
+body.cinema-focus-mode .breadcrumbs-bar,
+body.cinema-focus-mode #mobile-dock,
+body.cinema-focus-mode #main-content {
+    transition: opacity 0.6s ease, filter 0.6s ease;
+    pointer-events: none !important;
+}
+
+
+body.cinema-focus-mode .cinema-exit-hint {
+    opacity: 1;
+    visibility: visible;
+    transform: translate(-50%, 0);
+}
+
+.cinema-exit-hint {
+    position: fixed;
+    top: 35px;
+    left: 50%;
+    transform: translate(-50%, -20px);
+    background: rgba(10, 14, 19, 0.94);
+    border: 1px solid var(--color-copper, #f43f5e);
+    color: #ffffff;
+    font-family: var(--font-heading);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    padding: 10px 24px;
+    border-radius: 999px;
+    z-index: 10001;
+    pointer-events: auto;
+    cursor: pointer;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.cinema-exit-hint:hover {
+    background: var(--color-copper, #f43f5e);
+    transform: translate(-50%, -2px);
+}
+
+/* ==========================================================================
+   5. Multi-Sided 3D Scroll Reveal Engine
+   (Left, Right, Top, Bottom, Split, 3D Zoom, Alternating Stagger)
+   ========================================================================== */
+
+/* Content is fully visible by default to guarantee readability and prevent blank sections */
+[data-reveal],
+[data-reveal="left"],
+[data-reveal="right"],
+[data-reveal="top"],
+[data-reveal="bottom"],
+[data-reveal="zoom-3d"],
+[data-reveal="split"]>*,
+[data-reveal="stagger-cards"]>* {
+    opacity: 1;
+    transform: none;
+    transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+        transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Stagger delay utility classes */
+[data-reveal].delay-1 {
+    transition-delay: 100ms;
+}
+
+[data-reveal].delay-2 {
+    transition-delay: 200ms;
+}
+
+[data-reveal].delay-3 {
+    transition-delay: 300ms;
+}
+
+[data-reveal].delay-4 {
+    transition-delay: 400ms;
+}
+
+/* Enhanced 3D Tilt Glare Specular Highlights on Cards */
+.glass-card,
+.glass-card-dark,
+.product-card {
+    position: relative;
+    overflow: hidden;
+}
+
+.glass-card::after,
+.glass-card-dark::after,
+.product-card::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -150%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg,
+            transparent,
+            rgba(255, 255, 255, 0.12),
+            rgba(244, 63, 94, 0.22),
+            transparent);
+    transform: skewX(-25deg);
+    transition: left 0.75s ease;
+    pointer-events: none;
+    z-index: 4;
+}
+
+.glass-card:hover::after,
+.glass-card-dark:hover::after,
+.product-card:hover::after {
+    left: 200%;
+}
+
+/* Translucent Section Overlays for Clean Video Motion Pass-through */
+body {
+    background-color: transparent !important;
+}
+
+.site-main {
+    background: transparent !important;
+}
+
+.hero-section,
+#section-featured,
+#section-setup {
+    background: transparent !important;
+    background-color: transparent !important;
+}
+
+.hero-bg-morph {
+    opacity: 0.40;
+}
+
+
+.section-light {
+    background: rgba(246, 248, 250, 0.58)
+}
+
+/* Red-Marked Sections: 0.8 Opacity White Glass Layer */
+#section-featured,
+#section-setup {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.section-dark {
+    background: rgba(8, 17, 24, 0.58)
+}
+
+/* Mobile & Touch Responsive Adaptation */
+@media (max-width: 768px) {
+    .cinematic-letterbox-top,
+    .cinematic-letterbox-bottom {
+        display: none !important; /* Hide letterbox bars on mobile so full screen height is accessible */
+    }
+
+    .cinematic-hud-layer {
+        inset: 8px 12px;
+        font-size: 7.5px;
+    }
+
+    .cinematic-hud-badge {
+        font-size: 7.5px;
+        padding: 2px 6px;
+    }
+
+    .cinematic-controls-bar {
+        bottom: calc(70px + env(safe-area-inset-bottom, 12px));
+        right: 12px;
+        padding: 4px 8px;
+        font-size: 9.5px;
+        gap: 5px;
+    }
+
+    .cinematic-ctrl-btn {
+        padding: 4px 6px;
+        min-height: 32px;
+    }
+
+    .cinematic-scroll-gauge {
+        display: none;
+    }
+
+    [data-reveal="left"],
+    [data-reveal="right"] {
+        transform: translateY(20px);
+    }
+}
+
+/* Accessibility: Safe Fallback for Prefers-Reduced-Motion */
+@media (prefers-reduced-motion: reduce) {
+    .cinematic-video-player {
+        transform: translate(-50%, -50%) !important;
+        transition: none !important;
+    }
+
+    [data-reveal] {
+        opacity: 1 !important;
+        transform: none !important;
+        transition: none !important;
+    }
+}

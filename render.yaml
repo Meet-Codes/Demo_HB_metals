@@ -1,0 +1,33 @@
+# ==============================================================================
+# HB Metals India - Render Infrastructure Blueprint (render.yaml)
+# Docs: https://render.com/docs/blueprint-spec
+# ==============================================================================
+
+services:
+  # Main Web Application Container
+  - type: web
+    name: hbmetals-web
+    runtime: docker
+    plan: free
+    region: oregon
+    dockerContext: .
+    dockerfilePath: Dockerfile
+    healthCheckPath: /
+    envVars:
+      - key: APP_NAME
+        value: "HB Metals India"
+      - key: APP_ENV
+        value: production
+      - key: APP_DEBUG
+        value: "false"
+      - key: DB_CONNECTION
+        value: pgsql
+      - key: DB_URL
+        value: "postgresql://neondb_owner:npg_TCl2MQv4XPwk@ep-ancient-base-b401ttm9-pooler.c-6.us-east-2.aws.neon.tech/neondb?sslmode=require&channel_binding=require"
+      - key: DATABASE_URL
+        value: "postgresql://neondb_owner:npg_TCl2MQv4XPwk@ep-ancient-base-b401ttm9-pooler.c-6.us-east-2.aws.neon.tech/neondb?sslmode=require&channel_binding=require"
+      - key: NOTIFICATION_EMAIL
+        value: info@hbmetals.co.in
+      - key: MAIL_DRIVER
+        value: log
+

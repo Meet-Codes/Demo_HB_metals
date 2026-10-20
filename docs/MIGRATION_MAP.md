@@ -1,0 +1,20 @@
+# Content Migration Inventory & URL Mapping (Task 02)
+
+| Source URL | Source Title / H1 | Content Summary | Destination URL | Decision | Status | Notes |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| `https://hbmetals.co.in/` | Welcome to HB Metals | Established 2013, Rajkot. Metal powders & tungsten compounds. 4 value pillars. | `/` | Retain & Redesign | 200 OK | Retained canonical homepage; modern cinematic layout. |
+| `https://hbmetals.co.in/about-us/` | About us | Established 2013, processing departments, skilled team, infrastructure. | `/about-us/` | Retain & Redesign | 200 OK | Retained URL; enriched functional units and profile. |
+| `https://hbmetals.co.in/our-products/` | Our Products | Overview of Sodium Tungstate, Tungsten Powder, Oxide, APT, Metal Oxides, Salts. | `/our-products/` | Retain & Redesign | 200 OK | Retained URL; added search, category filters, and live product counts. |
+| `https://hbmetals.co.in/contact-us/` | Contact us | Anil Patel, Phone 9898449394, Email, Address in Shapar, Google Map. | `/contact-us/` | Retain & Redesign | 200 OK | Retained URL; added CSRF protection and anti-spam honeypot. |
+| `https://hbmetals.co.in/magnesium-metal-powder/` | Magnesium Metal Powder | High speed automatic machinery, MOQ 25 Kg, Get Quote action. | `/magnesium-metal-powder/` | Retain & Redesign | 200 OK | Canonical URL preserved; added specs table, CAS, and formula. |
+| `https://hbmetals.co.in/magnesium-metal-turning/` | Magnesium Metal Turning | High speed automatic machinery, synthesis grade ribbons, MOQ 25 Kg. | `/magnesium-metal-turning/` | Retain & Redesign | 200 OK | Canonical URL preserved; added chemical identity and applications. |
+| `https://hbmetals.co.in/sodium-tungstate/` | Sodium Tungstate | Catalyst for epoxidation/oxidation, pigment, MOQ 25 Kg. | `/sodium-tungstate/` | Retain & Redesign | 200 OK | Canonical URL preserved; added solubility and formula Na2WO4. |
+| `https://hbmetals.co.in/tungsten-trioxide-powder/` | Tungsten Trioxide Powder | Yellow powder, tungsten + 3 oxygen molecules synthesis, Get Quote. | `/tungsten-trioxide-powder/` | Retain & Redesign | 200 OK | Canonical URL preserved; added melting point and assay. |
+| `https://hbmetals.co.in/tungstic-acid/` | Tungstic Acid | Hydrated tungsten oxide, mordant and yellow pigment. | `/tungstic-acid/` | Retain & Redesign | 200 OK | Canonical URL preserved; added WO3 basis assay. |
+| `https://hbmetals.co.in/cobalt-oxide/` | Cobalt Oxide | Ceramic glazes, enamel pigments, high cobalt assay. | `/cobalt-oxide/` | Retain & Redesign | 200 OK | Canonical URL preserved; added 325 mesh parameter. |
+| `https://hbmetals.co.in/cobalt-acetate/` | Cobalt Acetate | Liquid-phase oxidation catalyst, paint drying agent. | `/cobalt-acetate/` | Retain & Redesign | 200 OK | Canonical URL preserved; added deliquescent handling notes. |
+| `https://hbmetals.co.in/ammonium-paratungstate/` | Ammonium Paratungstate | APT raw precursor for tungsten oxides and wire manufacturing. | `/ammonium-paratungstate/` | Retain & Redesign | 200 OK | Canonical URL preserved; added WO3 content. |
+| `https://hbmetals.co.in/tungsten-powder/` | Tungsten Powder | Category family overview for tungsten powder. | `/product-category/tungsten-powder/` | 301 Redirect | 301 Redirect | Redirected to dedicated category controller route. |
+| `https://hbmetals.co.in/tungsten-oxide/` | Tungsten Oxide | Category family overview for tungsten oxides. | `/product-category/tungsten-oxide/` | 301 Redirect | 301 Redirect | Redirected to dedicated category controller route. |
+| `https://hbmetals.co.in/metal-oxides/` | Metal Oxides | Category family overview for metal oxides. | `/product-category/metal-oxides/` | 301 Redirect | 301 Redirect | Redirected to dedicated category controller route. |
+| `https://hbmetals.co.in/metallic-salts/` | Metallic Salts | Category family overview for metallic salts. | `/product-category/metallic-salts/` | 301 Redirect | 301 Redirect | Redirected to dedicated category controller route. |

@@ -1,0 +1,847 @@
+/**
+ * HB Metals India - Comprehensive Responsive Architecture
+ * Perfectly tuned across all device viewports:
+ * - Mobile Phones: 320px, 360px, 375px, 390px, 414px, 430px
+ * - Phablets & Foldables: 480px, 540px, 640px
+ * - Tablets (Portrait & Landscape): 768px, 820px, 834px, 912px, 1024px
+ * - Laptops & Desktops: 1200px, 1440px, 1920px+
+ *
+ * Guarantees zero horizontal overflow, flawless video/canvas scaling,
+ * touch-friendly targets, iOS safe-area handling, and responsive typography.
+ */
+
+/* ==========================================================================
+   1. Universal Mobile & Viewport Foundation
+   ========================================================================== */
+html, body {
+    overflow-x: hidden;
+    max-width: 100vw;
+    width: 100%;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+}
+
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+/* Ensure all images, SVGs, iframes, and canvases never overflow their container */
+img, svg, iframe, canvas {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Keep full-screen cinematic video backdrop covering the dynamic viewport */
+.cinematic-video-player {
+    max-width: none !important;
+    height: 100vh !important;
+    height: 100dvh !important;
+    width: 100vw !important;
+    width: 100dvw !important;
+}
+
+/* Fluid Adaptive Container */
+.container {
+    width: 100%;
+    max-width: 1240px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: clamp(14px, 3.5vw, 28px);
+    padding-right: clamp(14px, 3.5vw, 28px);
+}
+
+/* Interactive 3D Molecule Viewer Container */
+.molecule-3d-wrap {
+    position: relative;
+    width: 100%;
+    height: 320px;
+    min-height: 260px;
+    max-height: 380px;
+    touch-action: none;
+    overflow: hidden;
+    background: rgba(14, 28, 42, 0.75);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: var(--radius-lg, 16px);
+}
+
+.molecule-3d-wrap canvas {
+    width: 100% !important;
+    height: 100% !important;
+    display: block;
+    outline: none;
+}
+
+.molecule-3d-hint {
+    position: absolute;
+    bottom: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(10, 21, 29, 0.85);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(244, 63, 94, 0.35);
+    color: #e2edf6;
+    font-size: 0.75rem;
+    font-family: var(--font-mono, monospace);
+    letter-spacing: 0.04em;
+    padding: 4px 12px;
+    border-radius: 999px;
+    pointer-events: none;
+    white-space: nowrap;
+    z-index: 5;
+}
+
+/* Responsive Table Wrapper */
+.table-responsive {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    margin-bottom: var(--space-4, 16px);
+}
+
+/* ==========================================================================
+   2. Desktop & Wide Displays (1024px and up)
+   ========================================================================== */
+@media (min-width: 1024px) {
+    .grid-3 {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: var(--space-8);
+    }
+
+    .grid-4 {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: var(--space-6);
+    }
+
+    .grid-2 {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: var(--space-8);
+    }
+
+    .menu-toggle-btn {
+        display: none !important;
+    }
+}
+
+/* Medium Desktop / Compact Laptop Nav Squeeze (1024px - 1200px) */
+@media (min-width: 1024px) and (max-width: 1200px) {
+    .nav-list {
+        gap: var(--space-4);
+    }
+
+    .nav-link {
+        font-size: 0.84rem;
+        padding: var(--space-1) 0;
+    }
+
+    .header-actions .btn-quote {
+        padding: 8px 14px;
+        font-size: 0.84rem;
+    }
+}
+
+/* ==========================================================================
+   3. Tablet & Medium Displays (Under 1024px)
+   ========================================================================== */
+@media (max-width: 1023px) {
+    /* Hide top header RFQ button in favor of mobile tab dock or slide menu */
+    .header-actions .btn-quote {
+        display: none;
+    }
+
+    /* Show hamburger toggle button */
+    .menu-toggle-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 42px;
+        height: 42px;
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        border-radius: var(--radius-sm, 6px);
+        color: var(--color-white, #ffffff);
+        font-size: 1.4rem;
+        cursor: pointer;
+        transition: background-color var(--transition-fast, 0.15s ease);
+    }
+
+    .menu-toggle-btn:active {
+        background: rgba(244, 63, 94, 0.25);
+    }
+
+    /* Mobile Navigation Drawer */
+    .primary-nav {
+        position: fixed;
+        top: var(--header-height, 70px);
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(10, 21, 29, 0.98);
+        backdrop-filter: blur(24px) saturate(180%);
+        -webkit-backdrop-filter: blur(24px) saturate(180%);
+        border-top: 1px solid rgba(255, 255, 255, 0.12);
+        flex-direction: column;
+        align-items: flex-start;
+        padding: var(--space-6) var(--space-6) calc(var(--space-8) + 70px);
+        gap: var(--space-3);
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+        transform: translateX(-100%);
+        transition: transform 0.32s cubic-bezier(0.16, 1, 0.3, 1);
+        z-index: var(--z-modal, 1000);
+    }
+
+    .primary-nav.is-open {
+        transform: translateX(0);
+    }
+
+    .nav-list {
+        flex-direction: column;
+        align-items: flex-start;
+        width: 100%;
+        gap: var(--space-2);
+    }
+
+    .nav-item {
+        width: 100%;
+    }
+
+    .nav-link {
+        font-size: 1.15rem;
+        width: 100%;
+        justify-content: space-between;
+        padding: 12px 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+        color: #e2edf6;
+    }
+
+    .nav-dropdown {
+        position: static;
+        opacity: 1;
+        visibility: visible;
+        transform: none;
+        background: rgba(255, 255, 255, 0.04);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: var(--radius-md, 10px);
+        box-shadow: none;
+        padding: var(--space-2);
+        margin-top: var(--space-2);
+        display: none;
+    }
+
+    .nav-item.is-expanded .nav-dropdown {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+    }
+
+    .nav-dropdown a {
+        color: #d1dde6;
+        padding: 10px 14px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+        border-radius: var(--radius-sm, 6px);
+    }
+
+    .nav-dropdown a:hover,
+    .nav-dropdown a:active {
+        background: rgba(244, 63, 94, 0.2);
+        color: #ffffff;
+    }
+
+    /* Grids on Tablet */
+    .hero-grid {
+        grid-template-columns: 1fr;
+        gap: var(--space-8);
+    }
+
+    .grid-4, .grid-3 {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: var(--space-6);
+    }
+
+    .footer-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: var(--space-8);
+    }
+
+    /* FAQ Two Column on Tablet */
+    .faq-two-col {
+        flex-direction: column;
+        gap: var(--space-8);
+    }
+
+    .faq-image-wrap {
+        position: static;
+        max-width: 100%;
+        max-height: 380px;
+    }
+
+    .faq-image {
+        width: 100%;
+        max-height: 380px;
+        object-fit: cover;
+    }
+}
+
+/* ==========================================================================
+   4. Mobile Phones & Small Tablets (Under 768px)
+   ========================================================================== */
+@media (max-width: 767px) {
+    /* Hide top bar to preserve screen height */
+    .top-bar {
+        display: none !important;
+    }
+
+    /* Brand Logo Scaling */
+    .brand-logo {
+        height: 38px;
+        max-width: 150px;
+    }
+
+    /* Hero Section Mobile Adaptation */
+    .hero-section {
+        padding: clamp(36px, 8vw, 64px) 0 clamp(30px, 6vw, 48px);
+        min-height: auto;
+    }
+
+    .hero-title {
+        font-size: clamp(1.85rem, 6.8vw, 2.75rem);
+        line-height: 1.15;
+        letter-spacing: -0.02em;
+        margin-bottom: var(--space-3);
+    }
+
+    .hero-slogan-pill {
+        width: 100%;
+        border-radius: var(--radius-md, 10px);
+        padding: 8px 12px;
+        gap: 8px;
+    }
+
+    .hero-slogan-text {
+        font-size: 0.85rem;
+        line-height: 1.4;
+    }
+
+    .hero-slogan-tagline {
+        font-size: 0.74rem;
+        line-height: 1.4;
+    }
+
+    .hero-lead {
+        font-size: clamp(0.95rem, 2.6vw, 1.1rem);
+        line-height: 1.6;
+        margin-bottom: var(--space-6);
+    }
+
+    .hero-actions {
+        flex-direction: column;
+        width: 100%;
+        gap: var(--space-3);
+    }
+
+    .hero-actions .btn {
+        width: 100%;
+        min-height: 48px;
+        justify-content: center;
+        font-size: 0.95rem;
+    }
+
+    .hero-morph-controls {
+        bottom: 12px;
+        left: 12px;
+        padding: 4px 10px;
+        gap: 6px;
+    }
+
+    .hero-morph-arrow {
+        width: 24px;
+        height: 24px;
+        font-size: 0.75rem;
+    }
+
+    .hero-morph-dot {
+        width: 6px;
+        height: 6px;
+    }
+
+    .hero-morph-dot.is-active {
+        width: 16px;
+    }
+
+    /* 1-Column Stacking for Grids */
+    .grid-4, .grid-3, .grid-2 {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: var(--space-5);
+    }
+
+    .footer-grid {
+        grid-template-columns: 1fr;
+        gap: var(--space-8);
+    }
+
+    /* Product Cards Mobile Optimization */
+    .product-card-actions {
+        flex-direction: column;
+        gap: var(--space-2);
+    }
+
+    .product-card-actions .btn {
+        width: 100%;
+        justify-content: center;
+        min-height: 44px;
+    }
+
+    /* Specifications Table on Mobile */
+    .spec-table {
+        font-size: 0.85rem;
+    }
+
+    .spec-table th {
+        width: 42%;
+        padding: 8px 10px;
+        font-size: 0.825rem;
+    }
+
+    .spec-table td {
+        padding: 8px 10px;
+        font-size: 0.85rem;
+    }
+
+    /* Gradient Cards on Mobile */
+    .gradient-card {
+        padding: var(--space-5, 20px) !important;
+    }
+
+    /* Form 2-column groups inside quote and contact pages */
+    [style*="grid-template-columns: 1.5fr 1fr"],
+    [style*="grid-template-columns: 1fr 1fr"] {
+        grid-template-columns: 1fr !important;
+        gap: var(--space-3, 12px) !important;
+    }
+
+    /* Global RFQ Modal on Mobile */
+    .modal-box {
+        width: 95% !important;
+        max-width: 520px;
+        margin: auto;
+        max-height: 86dvh;
+        border-radius: 20px;
+        padding: 0;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .modal-header {
+        padding: var(--space-4) var(--space-5);
+    }
+
+    .modal-title {
+        font-size: 1.2rem;
+    }
+
+    .modal-body {
+        padding: var(--space-4) var(--space-5);
+    }
+
+    /* Force 2-column form rows inside modal to 1 column on mobile */
+    .modal-box [style*="grid-template-columns"] {
+        grid-template-columns: 1fr !important;
+        gap: var(--space-3) !important;
+    }
+
+    /* Prevent iOS Safari auto-zoom on input focus by setting 16px font-size */
+    input.form-control,
+    select.form-select,
+    textarea.form-control {
+        font-size: 16px !important;
+        min-height: 44px;
+    }
+
+    /* Footer Bottom Alignment */
+    .footer-bottom .container {
+        flex-direction: column;
+        text-align: center;
+        gap: var(--space-3);
+    }
+
+    .footer-bottom-left {
+        justify-content: center;
+    }
+
+    .footer-legal-links {
+        justify-content: center;
+        gap: var(--space-4);
+    }
+}
+
+/* ==========================================================================
+   5. Ultra-compact Displays (Under 380px)
+   ========================================================================== */
+@media (max-width: 379px) {
+    :root {
+        --container-padding: 12px;
+    }
+
+    .brand-logo {
+        height: 32px;
+        max-width: 130px;
+    }
+
+    .hero-title {
+        font-size: 1.7rem;
+    }
+
+    .btn {
+        padding: 8px 14px;
+        font-size: 0.85rem;
+    }
+
+    .molecule-3d-wrap {
+        height: 240px;
+    }
+}
+
+/* ==========================================================================
+   6. iPhone iOS Mobile Bottom Dock & App System
+   ========================================================================== */
+.ios-tab-bar {
+    display: none;
+}
+.ios-sheet-backdrop {
+    display: none;
+}
+
+@media (max-width: 899px) {
+    /* Ensure entire website is scrollable without being obscured by the fixed dock */
+    body {
+        padding-bottom: calc(74px + env(safe-area-inset-bottom, 14px)) !important;
+    }
+
+    /* Fixed iPhone Bottom Tab Bar */
+    .ios-tab-bar {
+        display: block;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        z-index: 9999;
+        background: rgba(11, 25, 38, 0.92);
+        -webkit-backdrop-filter: blur(24px) saturate(180%);
+        backdrop-filter: blur(24px) saturate(180%);
+        border-top: 1px solid rgba(255, 255, 255, 0.14);
+        box-shadow: 0 -4px 25px rgba(0, 0, 0, 0.45);
+        padding-top: 6px;
+        padding-bottom: max(10px, env(safe-area-inset-bottom, 12px));
+        transform: translateZ(0);
+    }
+
+    .ios-tab-container {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        max-width: 520px;
+        margin: 0 auto;
+        padding: 0 8px;
+    }
+
+    .ios-tab-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        flex: 1;
+        background: transparent;
+        border: none;
+        padding: 4px 2px;
+        color: #94a3b8;
+        text-decoration: none;
+        cursor: pointer;
+        position: relative;
+        transition: transform 0.15s cubic-bezier(0.4, 0, 0.2, 1), color 0.15s ease;
+        -webkit-tap-highlight-color: transparent;
+    }
+
+    .ios-tab-item:active {
+        transform: scale(0.9);
+    }
+
+    .ios-tab-item.is-active {
+        color: #ea580c;
+    }
+
+    .ios-tab-icon-wrap {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 28px;
+        height: 28px;
+        margin-bottom: 2px;
+    }
+
+    .ios-tab-icon {
+        width: 22px;
+        height: 22px;
+        transition: transform 0.2s ease, stroke 0.2s ease;
+    }
+
+    .ios-tab-item.is-active .ios-tab-icon {
+        stroke: #ea580c;
+        transform: translateY(-1px);
+    }
+
+    .ios-active-dot {
+        position: absolute;
+        bottom: -2px;
+        width: 4px;
+        height: 4px;
+        border-radius: 50%;
+        background-color: #ea580c;
+        box-shadow: 0 0 6px rgba(234, 88, 12, 0.8);
+    }
+
+    .ios-tab-label {
+        font-size: 10px;
+        font-weight: 500;
+        letter-spacing: -0.01em;
+        line-height: 1.2;
+        color: inherit;
+        font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, sans-serif;
+    }
+
+    .ios-tab-item.is-active .ios-tab-label {
+        font-weight: 600;
+        color: #fb923c;
+    }
+
+    /* Center RFQ Action Button */
+    .ios-tab-rfq {
+        transform: translateY(-6px);
+    }
+
+    .ios-tab-rfq:active {
+        transform: translateY(-6px) scale(0.92);
+    }
+
+    .ios-rfq-pill {
+        width: 44px;
+        height: 44px;
+        border-radius: 14px;
+        background: linear-gradient(135deg, #f97316 0%, #ea580c 50%, #c25e2e 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 6px 18px rgba(234, 88, 12, 0.45), inset 0 1px 1px rgba(255, 255, 255, 0.4);
+        margin-bottom: 3px;
+        border: 2px solid rgba(11, 25, 38, 0.9);
+        transition: box-shadow 0.2s ease;
+    }
+
+    .ios-rfq-icon {
+        width: 22px;
+        height: 22px;
+        stroke: #ffffff;
+    }
+
+    .ios-rfq-label {
+        color: #fed7aa !important;
+        font-weight: 600;
+    }
+
+    /* iPhone iOS Slide-Up Action Sheet ("More" Menu) */
+    .ios-sheet-backdrop {
+        display: block;
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.65);
+        -webkit-backdrop-filter: blur(10px);
+        backdrop-filter: blur(10px);
+        z-index: 10000;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.3s ease;
+    }
+
+    .ios-sheet-backdrop.is-open {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    .ios-sheet-panel {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        max-height: 85vh;
+        overflow-y: auto;
+        background: rgba(15, 28, 42, 0.96);
+        -webkit-backdrop-filter: blur(30px) saturate(180%);
+        backdrop-filter: blur(30px) saturate(180%);
+        border-top: 1px solid rgba(255, 255, 255, 0.15);
+        border-radius: 28px 28px 0 0;
+        box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.6);
+        padding: 12px 20px calc(24px + env(safe-area-inset-bottom, 16px));
+        transform: translateY(100%);
+        transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .ios-sheet-backdrop.is-open .ios-sheet-panel {
+        transform: translateY(0);
+    }
+
+    .ios-sheet-grabber-wrap {
+        display: flex;
+        justify-content: center;
+        padding-bottom: 12px;
+        cursor: grab;
+    }
+
+    .ios-sheet-grabber {
+        width: 38px;
+        height: 5px;
+        border-radius: 3px;
+        background: rgba(255, 255, 255, 0.3);
+    }
+
+    .ios-sheet-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-bottom: 16px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        margin-bottom: 20px;
+    }
+
+    .ios-sheet-title {
+        color: #ffffff;
+        font-size: 1.2rem;
+        font-weight: 700;
+        margin: 0;
+        letter-spacing: -0.02em;
+    }
+
+    .ios-sheet-subtitle {
+        color: #94a3b8;
+        font-size: 0.8rem;
+        margin: 2px 0 0;
+    }
+
+    .ios-sheet-close-btn {
+        background: rgba(255, 255, 255, 0.1);
+        border: none;
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        color: #cbd5e1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: background 0.2s, transform 0.15s;
+    }
+
+    .ios-sheet-close-btn:active {
+        transform: scale(0.9);
+        background: rgba(255, 255, 255, 0.2);
+    }
+
+    /* iPhone App Squircles Grid */
+    .ios-app-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 16px 12px;
+        margin-bottom: 24px;
+    }
+
+    @media (max-width: 400px) {
+        .ios-app-grid {
+            grid-template-columns: repeat(3, 1fr);
+        }
+    }
+
+    .ios-app-icon-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        text-decoration: none;
+        background: transparent;
+        border: none;
+        cursor: pointer;
+        padding: 4px;
+        transition: transform 0.15s ease;
+        -webkit-tap-highlight-color: transparent;
+    }
+
+    .ios-app-icon-item:active {
+        transform: scale(0.88);
+    }
+
+    .ios-app-squircle {
+        width: 58px;
+        height: 58px;
+        border-radius: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #ffffff;
+        margin-bottom: 8px;
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.35), inset 0 1px 1px rgba(255, 255, 255, 0.3);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .ios-app-squircle::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 45%;
+        background: linear-gradient(180deg, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0) 100%);
+        border-radius: 16px 16px 0 0;
+        pointer-events: none;
+    }
+
+    /* Gradient Themes for iOS Squircles */
+    .bg-blue-grad { background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%); }
+    .bg-emerald-grad { background: linear-gradient(135deg, #10b981 0%, #047857 100%); }
+    .bg-purple-grad { background: linear-gradient(135deg, #8b5cf6 0%, #6d28d9 100%); }
+    .bg-amber-grad { background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); }
+    .bg-teal-grad { background: linear-gradient(135deg, #14b8a6 0%, #0f766e 100%); }
+    .bg-green-grad { background: linear-gradient(135deg, #22c55e 0%, #15803d 100%); }
+    .bg-whatsapp-grad { background: linear-gradient(135deg, #25D366 0%, #128C7E 100%); }
+    .bg-orange-grad { background: linear-gradient(135deg, #f97316 0%, #ea580c 100%); }
+
+    .ios-app-title {
+        font-size: 11px;
+        font-weight: 500;
+        color: #e2e8f0;
+        line-height: 1.2;
+        font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, sans-serif;
+    }
+
+    .ios-sheet-footer-info {
+        padding-top: 14px;
+        border-top: 1px solid rgba(255, 255, 255, 0.08);
+        display: flex;
+        justify-content: center;
+    }
+
+    .ios-sheet-info-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 6px 14px;
+        background: rgba(255, 255, 255, 0.06);
+        border-radius: 20px;
+        color: #94a3b8;
+        font-size: 0.75rem;
+    }
+}

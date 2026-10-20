@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /storage/
+Disallow: /enquiry/thank-you/
+Disallow: /*?*q=
+
+Sitemap: http://localhost:8000/sitemap.xml
